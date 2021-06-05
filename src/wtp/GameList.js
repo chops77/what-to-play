@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { CssBaseline, Backdrop, Fade, Container, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Button, Modal, Grid, Typography, Avatar, List, ListItem, ListItemAvatar, ListItemText, Box, IconButton } from '@material-ui/core';
 import { SkipNext, SkipPrevious } from '@material-ui/icons';
+import GameDetail from './GameDetail';
 
 export class GameList extends Component {
 
@@ -10,6 +11,8 @@ export class GameList extends Component {
         previous: null,
         results: [],
         modalOpen: false,
+        gameId: 3498,
+        detail: null,
         error: ''
     }
 
@@ -40,12 +43,20 @@ export class GameList extends Component {
         this.loadList(skip);
     }
 
-    modalOpen = () => {
-        this.setState({ modalOpen: true })
+    modalOpen = (id) => {
+        this.setState({ modalOpen: true, gameId: id });
+        const url = `https://api.rawg.io/api/games/${id}?key=460197e0758e44d889129066624b90d6`
+        fetch(url)
+            .then(response => response.json())
+            .then(data =>{
+                this.setState({
+                    detail: data
+                })
+            })
     }
 
     modalClose = () => {
-        this.setState({ modalOpen: false })
+        this.setState({ modalOpen: false });
     }
 
     render() {
@@ -68,7 +79,7 @@ export class GameList extends Component {
                         return (
                             <Grid item style={{backgroundColor: 'gray'}}>
                                 <Card variant="outlined" style={{maxWidth: 300}}>
-                                    <CardActionArea onClick={this.modalOpen}>
+                                    <CardActionArea onClick={() => this.modalOpen(game.id)}>
                                         <CardMedia style={{width: 300, height: 300}} image={game.background_image}/>
                                         <CardHeader title={game.name}/>
                                         <CardContent style={{backgroundColor: '#cccccc'}}>
@@ -104,9 +115,7 @@ export class GameList extends Component {
                     style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
                 >
                     <Fade in={this.state.modalOpen}>
-                        <div style={{ border: '2px solid white' }}>
-                            <img src="https://media.rawg.io/media/games/84d/84da2ac3fdfc6507807a1808595afb12.jpg" alt="GTA" width="500" />
-                        </div>
+                        <GameDetail detail={this.state.detail}/>
                     </Fade>
                 </Modal>
             </Container>
