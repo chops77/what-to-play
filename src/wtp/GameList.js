@@ -20,6 +20,12 @@ export class GameList extends Component {
         this.loadList(this.props.url);
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.url !== prevProps.url) {
+          this.loadList(this.props.url);
+        }
+      }
+
     loadList = (url) => {
         fetch(url)
             .then(response => response.json())
@@ -61,9 +67,8 @@ export class GameList extends Component {
 
     render() {
         const {isLoading, next, previous, results, error} = this.state;
-
         return (
-            <Container maxWidth="lg" style={{backgroundColor: 'black'}}>
+            <Container maxWidth="lg" style={{paddingTop: 5, backgroundColor: 'black'}}>
                 <CssBaseline />
                 {isLoading && <Typography variant="h4">Loading...</Typography>}
                 {error && <Typography variant="h4">{error}</Typography>}
@@ -81,8 +86,8 @@ export class GameList extends Component {
                                 <Card variant="outlined" style={{maxWidth: 300}}>
                                     <CardActionArea onClick={() => this.modalOpen(game.id)}>
                                         <CardMedia style={{width: 300, height: 300}} image={game.background_image}/>
-                                        <CardHeader title={game.name}/>
-                                        <CardContent style={{backgroundColor: '#cccccc'}}>
+                                        <CardHeader title={game.name} style={{height: 100}}/>
+                                        <CardContent style={{height: 300, backgroundColor: '#cccccc'}}>
                                             <Typography variant="subtitle1"> <b>Platforms: </b>{platforms.join(", ")} </Typography>
                                             <Typography variant="subtitle1"> <b>Metascore:</b> {game.metacritic}</Typography>
                                             <Typography variant="subtitle1"> <b>Genres: </b>{genres.join(", ")} </Typography>
@@ -104,15 +109,17 @@ export class GameList extends Component {
                         );
                     })}
                 </Grid>
-                {previous && <IconButton onClick={() => this.listHandler(previous)}><SkipPrevious /> Previous List</IconButton>}
-                {next && <IconButton onClick={() => this.listHandler(next)}> Next List<SkipNext /></IconButton>}
+                <Box display="flex" justifyContent="center">
+                    {previous && <IconButton style={{color: 'white'}} onClick={() => this.listHandler(previous)}><SkipPrevious /> Previous List</IconButton>}
+                    {next && <IconButton style={{color: 'white'}} onClick={() => this.listHandler(next)}> Next List<SkipNext /></IconButton>}
+                </Box>
                 <Modal
                     open={this.state.modalOpen}
                     onClose={this.modalClose}
                     closeAfterTransition
                     BackdropComponent={Backdrop}
                     BackdropProps={{ timeout: 500 }}
-                    style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+                    style={{display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'scroll'}}
                 >
                     <Fade in={this.state.modalOpen}>
                         <GameDetail detail={this.state.detail}/>

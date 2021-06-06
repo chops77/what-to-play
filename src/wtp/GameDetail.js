@@ -10,7 +10,6 @@ export class GameDetail extends Component {
 
         if (detail) {
             description = detail.description;
-            console.log(description);
             content = (
                 <Card variant="outlined" style={{maxWidth: 500}}>
                     <CardMedia style={{height: 475}} image={detail.background_image} title={detail.name}/>
