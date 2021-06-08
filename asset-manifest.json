@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/what-to-play/static/css/main.9d5b29c0.chunk.css",
+    "main.js": "/what-to-play/static/js/main.57cb8104.chunk.js",
+    "main.js.map": "/what-to-play/static/js/main.57cb8104.chunk.js.map",
+    "runtime-main.js": "/what-to-play/static/js/runtime-main.5528551d.js",
+    "runtime-main.js.map": "/what-to-play/static/js/runtime-main.5528551d.js.map",
+    "static/js/2.a1bc1633.chunk.js": "/what-to-play/static/js/2.a1bc1633.chunk.js",
+    "static/js/2.a1bc1633.chunk.js.map": "/what-to-play/static/js/2.a1bc1633.chunk.js.map",
+    "static/js/3.824326cc.chunk.js": "/what-to-play/static/js/3.824326cc.chunk.js",
+    "static/js/3.824326cc.chunk.js.map": "/what-to-play/static/js/3.824326cc.chunk.js.map",
+    "index.html": "/what-to-play/index.html",
+    "static/css/main.9d5b29c0.chunk.css.map": "/what-to-play/static/css/main.9d5b29c0.chunk.css.map",
+    "static/js/2.a1bc1633.chunk.js.LICENSE.txt": "/what-to-play/static/js/2.a1bc1633.chunk.js.LICENSE.txt",
+    "static/media/gamearts.d3d0aa08.png": "/what-to-play/static/media/gamearts.d3d0aa08.png",
+    "static/media/pick.e37dc64c.gif": "/what-to-play/static/media/pick.e37dc64c.gif",
+    "static/media/wtp.db1d38fe.png": "/what-to-play/static/media/wtp.db1d38fe.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5528551d.js",
+    "static/js/2.a1bc1633.chunk.js",
+    "static/css/main.9d5b29c0.chunk.css",
+    "static/js/main.57cb8104.chunk.js"
+  ]
+}
