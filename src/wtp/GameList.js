@@ -1,9 +1,14 @@
 import React, { Component } from 'react'
-import { CssBaseline, Backdrop, Fade, Container, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Button, Modal, Grid, Typography, Avatar, List, ListItem, ListItemAvatar, ListItemText, Box, IconButton } from '@material-ui/core';
+import { CssBaseline, Backdrop, Button, Fade, Container, Card, CardHeader, CardMedia, CardContent, CardActionArea, Modal, Grid, Typography, Box, IconButton, Paper } from '@material-ui/core';
 import { SkipNext, SkipPrevious } from '@material-ui/icons';
+import PropTypes from 'prop-types';
 import GameDetail from './GameDetail';
+import PickImage from '../img/pick.gif';
 
 export class GameList extends Component {
+    static propTypes = {
+        url: PropTypes.string.isRequired        
+    }
 
     state = {
         isLoading: true,
@@ -65,6 +70,13 @@ export class GameList extends Component {
         this.setState({ modalOpen: false });
     }
 
+    randomPick = (resultList) => {
+        if (resultList.length > 0){
+            const myPick = resultList[Math.floor(Math.random() * resultList.length)].id;
+            this.modalOpen(myPick);
+        }
+    }
+
     render() {
         const {isLoading, next, previous, results, error} = this.state;
         return (
@@ -72,7 +84,11 @@ export class GameList extends Component {
                 <CssBaseline />
                 {isLoading && <Typography variant="h4">Loading...</Typography>}
                 {error && <Typography variant="h4">{error}</Typography>}
-                
+                <Paper style={{ display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: 'black' }}>
+                    <Button onClick={() => this.randomPick(results)}>
+                        <img src={PickImage} alt="Pick One For Me!"/>
+                    </Button>
+                </Paper>
                 <Grid container spacing={1}>
                     {results.map((game, idx) => {
                         const platforms = game.platforms.map((platform) => {
@@ -82,36 +98,26 @@ export class GameList extends Component {
                             return genre.name;
                         })
                         return (
-                            <Grid item style={{backgroundColor: 'gray'}}>
+                            <Grid key={idx} item style={{backgroundColor: 'gray'}}>
                                 <Card variant="outlined" style={{maxWidth: 300}}>
                                     <CardActionArea onClick={() => this.modalOpen(game.id)}>
                                         <CardMedia style={{width: 300, height: 300}} image={game.background_image}/>
                                         <CardHeader title={game.name} style={{height: 100}}/>
-                                        <CardContent style={{height: 300, backgroundColor: '#cccccc'}}>
+                                        <CardContent style={{height: 250, backgroundColor: '#cccccc'}}>
                                             <Typography variant="subtitle1"> <b>Platforms: </b>{platforms.join(", ")} </Typography>
                                             <Typography variant="subtitle1"> <b>Metascore:</b> {game.metacritic}</Typography>
                                             <Typography variant="subtitle1"> <b>Genres: </b>{genres.join(", ")} </Typography>
-                                            <Typography variant="subtitle1"> <b>Average Beat Time:</b> {game.playtime} hours</Typography>
                                             <Typography variant="subtitle1"> <b>Release Date:</b> {game.released}</Typography>
                                         </CardContent>
                                     </CardActionArea>
-                                    <CardActions>
-                                        Add to:
-                                        <Button size="small" color="primary">
-                                        Bucket
-                                        </Button>
-                                        <Button size="small" color="primary">
-                                        Played
-                                        </Button>
-                                    </CardActions>
                                 </Card>
                             </Grid>
                         );
                     })}
                 </Grid>
                 <Box display="flex" justifyContent="center">
-                    {previous && <IconButton style={{color: 'white'}} onClick={() => this.listHandler(previous)}><SkipPrevious /> Previous List</IconButton>}
-                    {next && <IconButton style={{color: 'white'}} onClick={() => this.listHandler(next)}> Next List<SkipNext /></IconButton>}
+                    {previous && <IconButton style={{color: 'white'}} onClick={() => this.listHandler(previous)}><SkipPrevious /> Previous Page</IconButton>}
+                    {next && <IconButton style={{color: 'white'}} onClick={() => this.listHandler(next)}> Next Page<SkipNext /></IconButton>}
                 </Box>
                 <Modal
                     open={this.state.modalOpen}
@@ -121,9 +127,11 @@ export class GameList extends Component {
                     BackdropProps={{ timeout: 500 }}
                     style={{display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'scroll'}}
                 >
+                    <div>
                     <Fade in={this.state.modalOpen}>
                         <GameDetail detail={this.state.detail}/>
                     </Fade>
+                    </div>
                 </Modal>
             </Container>
         )
